@@ -1,0 +1,32 @@
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Environment directories
+env/
+venv/
+ENV/
+.venv/
+.env/
+env.bak/
+venv.bak/
+
+# Python env files
+*.env
+*.venv
+
+# MyPy
+.mypy_cache/
+
+# Pylint
+.pylint.d/
+
+# Pytest
+.pytest_cache/

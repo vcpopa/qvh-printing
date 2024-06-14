@@ -1,0 +1,25 @@
+{
+    "name": "Python 3.10 Dev Container",
+    "dockerFile": "py310-devcontainer.Dockerfile",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            },
+            "extensions": [
+                "ms-python.python",
+                "editorconfig.editorconfig",
+                "ms-python.vscode-pylance",
+                "ms-python.pyright",
+                // "ms-python.pylance",
+                "ms-python.black",
+                "ms-toolsai.jupyter",
+                "ms-toolsai.jupyter-keymap",
+                "ms-toolsai.jupyter-renderers"
+            ]
+        }
+    },
+    "runArgs": [
+        "--user=root"
+    ]
+}
