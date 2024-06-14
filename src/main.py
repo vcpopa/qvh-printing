@@ -39,19 +39,7 @@ if __name__ == "__main__":
         "--emails",
         type=str,
         nargs="+",
-        help="List of email addresses to send notifications to",
-    )
-    parser.add_argument(
-        "--azure_client_id", type=str, required=True, help="The Azure client ID"
-    )
-    parser.add_argument(
-        "--azure_client_secret",
-        type=str,
-        required=True,
-        help="The Azure client secret",
-    )
-    parser.add_argument(
-        "--azure_tenant_id", type=str, required=True, help="The Azure tenant ID"
+        help="List of email addresses to send notifications to"
     )
     parser.add_argument(
         "--chunk_size", type=int, default=5, help="Chunk size (default: 5)"
@@ -60,12 +48,9 @@ if __name__ == "__main__":
     measure = args.measure
     emails = args.emails
     chunk_size = args.chunk_size
-    client_id = args.azure_client_id
-    client_secret = args.azure_client_secret
-    tenant_id = args.azure_tenant_id
-    os.environ["AZURE_CLIENT_ID"] = client_id
-    os.environ["AZURE_CLIENT_SECRET"] = client_secret
-    os.environ["AZURE_TENANT_ID"] = tenant_id
+    client_id = os.environ["AZURE_CLIENT_ID"]
+    client_secret = os.environ["AZURE_CLIENT_SECRET"]
+    tenant_id = os.environ["AZURE_TENANT_ID"]
 
     allowed_measures = ["KS01", "KS02", "KS03", "KS04", "KS05", "all"]
     if measure not in allowed_measures:
