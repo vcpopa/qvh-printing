@@ -30,7 +30,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install black pylint mypy
-        mypy --install-types src
+        mypy --install-types --non-interactive src
 
     - name: Run black
       run: |
