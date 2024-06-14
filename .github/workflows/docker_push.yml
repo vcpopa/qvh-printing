@@ -17,6 +17,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Tag image
-      run: docker tag iqpr-report-export-test:latest ${{ secrets.DOCKERHUB_USERNAME }}/iqpr-report-export:latest
+      run: docker tag iqpr-report-export:latest ${{ secrets.DOCKERHUB_USERNAME }}/iqpr-report-export:latest
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/iqpr-report-export:latest
