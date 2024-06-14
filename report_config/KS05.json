@@ -1,0 +1,48 @@
+[{
+    "pageName":"fb014df3388ed603bc8a",
+    "displayName":"Cover Page",
+    "pageOrder":1,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"0c07c8bd09a015bc3b42",
+    "displayName":"Integrated Assurance Report - Scorecard",
+    "pageOrder":2,
+    "measureId":null
+
+},
+{
+    "pageName":"f7963ec0119857d091a0",
+    "displayName":"KS05",
+    "pageOrder":3,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"dfbf91e570010dbc020e",
+    "displayName":"KS05 - Summary",
+    "pageOrder":4,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"ReportSection3d56c1430c6507eeb94b",
+    "displayName":"KS05 - scorecard",
+    "pageOrder":5,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"43fa50690d5e8b98c12d",
+    "displayName":"Icons Summary",
+    "pageOrder":6,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+}
+]

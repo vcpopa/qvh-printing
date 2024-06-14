@@ -1,0 +1,65 @@
+[{
+    "pageName":"fb014df3388ed603bc8a",
+    "displayName":"Cover Page",
+    "pageOrder":1,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"0c07c8bd09a015bc3b42",
+    "displayName":"Integrated Assurance Report - Scorecard",
+    "pageOrder":2,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"429407951db5e9e5850c",
+    "displayName":"KS01",
+    "pageOrder":3,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"2b15f71a899eed060c6c",
+    "displayName":"KS01 - Summary",
+    "pageOrder":4,
+    "measureId":"",
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"ReportSectionb091526480e0953de720",
+    "displayName":"KS01 - Annual Goal",
+    "pageOrder":5,
+    "measureId":"BR065",
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"ReportSectionb091526480e0953de720",
+    "displayName":"KS01 - Annual Goal",
+    "pageOrder":6,
+    "measureId":"BR033",
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"ReportSection3fc10fc4a876216b5982",
+    "displayName":"KS01 - Non Annual Goal",
+    "pageOrder":7,
+    "measureId":"BR049",
+    "comparativeMeasureId":null
+
+},
+{
+    "pageName":"43fa50690d5e8b98c12d",
+    "displayName":"Icons Summary",
+    "pageOrder":8,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+}
+]
