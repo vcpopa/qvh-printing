@@ -19,4 +19,4 @@ jobs:
     - name: Tag image
       run: docker tag iqpr-report-export-test:latest ${{ secrets.DOCKERHUB_USERNAME }}/iqpr-report-export-test:latest
     - name: Push Docker image
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/qvh:latest
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/iqpr-report-export-test:latest
