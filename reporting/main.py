@@ -34,19 +34,10 @@ from ppt import merge_presentations
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process some integers.")
-    parser.add_argument("--measure", type=str, help="The measure to filter pages by")
-    parser.add_argument(
-        "--emails",
-        type=str,
-        nargs="+",
-        help="List of email addresses to send notifications to"
-    )
     parser.add_argument(
         "--chunk_size", type=int, default=5, help="Chunk size (default: 5)"
     )
     args = parser.parse_args()
-    measure = args.measure
-    emails = args.emails
     chunk_size = args.chunk_size
     client_id = os.environ["AZURE_CLIENT_ID"]
     client_secret = os.environ["AZURE_CLIENT_SECRET"]
