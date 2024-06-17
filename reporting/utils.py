@@ -35,12 +35,9 @@ Note:
 import os
 import string
 import random
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
+from azure.storage.fileshare import ShareFileClient
 from exc import KeyVaultError  # pylint: disable=import-error
 
 
@@ -98,48 +95,66 @@ def generate_id(length: int = 8) -> str:
     return random_id
 
 
-def send_email(emails, subject, message, attachment=None):
+def get_fileshare_client(fileshare_name: str, fileshare_path: str) -> ShareFileClient:
     """
-    Sends an email with optional attachment(s) to specified email addresses using SMTP.
+    Creates a ShareFileClient to interact with a specific file in an Azure File Share.
 
     Args:
-    - emails (list): List of email addresses to send the email to.
-    - subject (str): Subject line of the email.
-    - message (str): HTML content of the email body.
-    - attachment (str, optional): File path of the attachment. Default is None.
+        fileshare_name (str): The name of the Azure File Share.
+        fileshare_path (str): The path to the file within the Azure File Share.
 
     Returns:
-    - None
-
-    Notes:
-    - Requires credentials from the key vault (not implemented) for email inbox, password, server host, server port, and sender name.
+        ShareFileClient: An instance of ShareFileClient for the specified file.
     """
-    email_inbox = get_credential("email-address")
-    email_pwd = get_credential("email-password")
-    emailfrom = email_inbox
-    email_server_host = get_credential("email-server-host")
-    email_server_port = int(get_credential("email-server-port"))
-    namefrom = get_credential("email-name-from")
+    account_name = os.environ["FILESHARE_ACCOUNT"]
+    account_key = os.environ["FILESHARE_KEY"]
+    file_client = ShareFileClient(
+        account_url=f"https://{account_name}.file.core.windows.net/",
+        share_name=fileshare_name,
+        file_path=fileshare_path,
+        credential=account_key,
+    )
+    return file_client
 
-    for emailto in emails:
-        msg = MIMEMultipart()
-        msg["From"] = f"{namefrom} <{emailfrom}>"
-        msg["To"] = emailto
-        msg["Subject"] = subject
-        msg.attach(MIMEText(message, "html"))
 
-        if attachment:
-            with open(attachment, "rb") as file:
-                attach = MIMEApplication(file.read(), _subtype="txt")
-                attach.add_header(
-                    "Content-Disposition",
-                    "attachment",
-                    filename=attachment.replace("logs", ""),
-                )
-                msg.attach(attach)
+def upload_to_fileshare(
+    local_file_path: str, fileshare_name: str, fileshare_path: str
+) -> None:
+    """
+    Uploads a local file to a specified path in an Azure File Share.
 
-        server = smtplib.SMTP(email_server_host, email_server_port)
-        server.starttls()
-        server.login(email_inbox, email_pwd)
-        server.sendmail(emailfrom, emailto, msg.as_string())
-        server.quit()
+    Args:
+        local_file_path (str): The local path of the file to upload.
+        fileshare_name (str): The name of the Azure File Share.
+        fileshare_path (str): The path within the Azure File Share where the file will be uploaded.
+
+    Returns:
+        None
+    """
+    file_client = get_fileshare_client(
+        fileshare_name=fileshare_name, fileshare_path=fileshare_path
+    )
+    with open(local_file_path, "rb") as source_file:
+        file_client.upload_file(source_file)
+
+
+def download_from_fileshare(
+    local_file_path: str, fileshare_name: str, fileshare_path: str
+) -> None:
+    """
+    Downloads a file from a specified path in an Azure File Share to a local path.
+
+    Args:
+        local_file_path (str): The local path where the file will be saved.
+        fileshare_name (str): The name of the Azure File Share.
+        fileshare_path (str): The path within the Azure File Share from where the file will be downloaded.
+
+    Returns:
+        None
+    """
+    file_client = get_fileshare_client(
+        fileshare_name=fileshare_name, fileshare_path=fileshare_path
+    )
+    with open(local_file_path, "wb") as target_file:
+        data = file_client.download_file()
+        data.readinto(target_file)

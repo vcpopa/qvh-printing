@@ -19,10 +19,9 @@ import argparse
 import os
 import asyncio
 from utils import (
-    get_credential,
     generate_id,
     make_dir,
-    send_email,
+    upload_to_fileshare,
 )
 from pbi import (
     get_access_token,
@@ -34,56 +33,40 @@ from ppt import merge_presentations
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process some integers.")
-    parser.add_argument("--measure", type=str, help="The measure to filter pages by")
-    parser.add_argument(
-        "--emails",
-        type=str,
-        nargs="+",
-        help="List of email addresses to send notifications to"
-    )
     parser.add_argument(
         "--chunk_size", type=int, default=5, help="Chunk size (default: 5)"
     )
     args = parser.parse_args()
-    measure = args.measure
-    emails = args.emails
     chunk_size = args.chunk_size
     client_id = os.environ["AZURE_CLIENT_ID"]
     client_secret = os.environ["AZURE_CLIENT_SECRET"]
     tenant_id = os.environ["AZURE_TENANT_ID"]
-
-    allowed_measures = ["KS01", "KS02", "KS03", "KS04", "KS05", "all"]
-    if measure not in allowed_measures:
-        raise ValueError(
-            f"Unsupported measure: {measure}. Allowed values are {', '.join(allowed_measures)}"
-        )
-    if measure == "all":
-        report_config_path = "report_config/full_report.json"
-    else:
-        report_config_path = f"report_config/{measure}.json"
-    workspace_id = get_credential("workspace-id")
-    report_id = get_credential("report-id")
+    workspace_id = os.environ["WORKSPACE_ID"]
+    report_id = os.environ["REPORT_ID"]
     report_instance = ReportInstance(
         client_id, client_secret, tenant_id, workspace_id, report_id
     )
     token = get_access_token(report_instance)
-    report_config = load_report_config(report_config_path)
-    print(report_config)
-    run_id = generate_id()
-    make_dir(run_id)
-    asyncio.run(
-        get_all_pages(
-            report_config=report_config,
-            instance=report_instance,
-            token=token,
-            ppt_id=run_id,
-            chunk_size=chunk_size,
+    measures = ["KS01", "KS02", "KS03", "KS04", "KS05", "Full Report"]
+    for measure in measures:
+        report_config = load_report_config(measure_name=measure)
+        run_id = generate_id()
+        make_dir(run_id)
+        asyncio.run(
+            get_all_pages(
+                report_config=report_config,
+                instance=report_instance,
+                token=token,
+                ppt_id=run_id,
+                chunk_size=chunk_size,
+            )
         )
-    )
-    merge_presentations(directory_path=run_id, output_filename=f"{measure}_report.pptx")
-    send_email(
-        emails=emails,
-        subject=f"test {measure}",
-        message="test",
-        attachment=f"{measure}_report.pptx",
-    )
+        report_name = f"{measure}.pptx"
+        merge_presentations(
+            directory_path=run_id, output_filename=f"{run_id}/{report_name}"
+        )
+        upload_to_fileshare(
+            local_file_path=f"{run_id}/{report_name}",
+            fileshare_path=f"Reports/{report_name}",
+            fileshare_name="qvh",
+        )

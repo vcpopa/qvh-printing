@@ -27,16 +27,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install black pylint mypy
-        mypy --install-types --non-interactive src
+        mypy --install-types --non-interactive reporting
 
     - name: Run black
       run: |
-        black --check src
+        black --check reporting
 
     - name: Run pylint
       run: |
-        pylint src
+        pylint repoorting
 
     - name: Run mypy
       run: |
-        mypy src
+        mypy reporting

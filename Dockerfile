@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
     apt-get update && \
     ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev
 # Copy the rest of the application's code into the container
-COPY src /app/src
+COPY reporting /app/reporting
 COPY report_config /app/report_config
 
 # Define the entry point for the container
-ENTRYPOINT ["python", "/app/src/main.py"]
+ENTRYPOINT ["python", "/app/reporting/main.py"]
