@@ -10,7 +10,8 @@
     "pageName":"0c07c8bd09a015bc3b42",
     "displayName":"Integrated Assurance Report - Scorecard",
     "pageOrder":2,
-    "measureId":null
+    "measureId":null,
+    "comparativeMeasureId":null
 
 },
 {

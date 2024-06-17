@@ -37,6 +37,7 @@ import string
 import random
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
+from azure.storage.fileshare import ShareFileClient
 from exc import KeyVaultError  # pylint: disable=import-error
 
 
@@ -92,3 +93,68 @@ def generate_id(length: int = 8) -> str:
     characters = string.ascii_letters + string.digits
     random_id = "".join(random.choice(characters) for _ in range(length))
     return random_id
+
+
+def get_fileshare_client(fileshare_name: str, fileshare_path: str) -> ShareFileClient:
+    """
+    Creates a ShareFileClient to interact with a specific file in an Azure File Share.
+
+    Args:
+        fileshare_name (str): The name of the Azure File Share.
+        fileshare_path (str): The path to the file within the Azure File Share.
+
+    Returns:
+        ShareFileClient: An instance of ShareFileClient for the specified file.
+    """
+    account_name = os.environ["FILESHARE_ACCOUNT"]
+    account_key = os.environ["FILESHARE_KEY"]
+    file_client = ShareFileClient(
+        account_url=f"https://{account_name}.file.core.windows.net/",
+        share_name=fileshare_name,
+        file_path=fileshare_path,
+        credential=account_key,
+    )
+    return file_client
+
+
+def upload_to_fileshare(
+    local_file_path: str, fileshare_name: str, fileshare_path: str
+) -> None:
+    """
+    Uploads a local file to a specified path in an Azure File Share.
+
+    Args:
+        local_file_path (str): The local path of the file to upload.
+        fileshare_name (str): The name of the Azure File Share.
+        fileshare_path (str): The path within the Azure File Share where the file will be uploaded.
+
+    Returns:
+        None
+    """
+    file_client = get_fileshare_client(
+        fileshare_name=fileshare_name, fileshare_path=fileshare_path
+    )
+    with open(local_file_path, "rb") as source_file:
+        file_client.upload_file(source_file)
+
+
+def download_from_fileshare(
+    local_file_path: str, fileshare_name: str, fileshare_path: str
+) -> None:
+    """
+    Downloads a file from a specified path in an Azure File Share to a local path.
+
+    Args:
+        local_file_path (str): The local path where the file will be saved.
+        fileshare_name (str): The name of the Azure File Share.
+        fileshare_path (str): The path within the Azure File Share from where the file will be downloaded.
+
+    Returns:
+        None
+    """
+    file_client = get_fileshare_client(
+        fileshare_name=fileshare_name, fileshare_path=fileshare_path
+    )
+    with open(local_file_path, "wb") as target_file:
+        data = file_client.download_file()
+        data.readinto(target_file)

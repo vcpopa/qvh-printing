@@ -16,10 +16,58 @@ Functions:
 from typing import Optional, List, Dict, Any
 import re
 import json
+from enum import Enum
 from pydantic import BaseModel, field_validator
 
 
 PRINT_MEASURES_TABLE = "scd.Measure_Print"
+
+
+class MeasureConfig(Enum):
+    """
+    Enum representing different measures and their corresponding configuration file paths.
+
+    Each member of the enum consists of:
+    - measure_name: The name of the measure.
+    - config_path: The path to the JSON configuration file for the measure.
+    """
+
+    KS01 = ("KS01", "report_config/KS01.json")
+    KS02 = ("KS02", "report_config/KS02.json")
+    KS03 = ("KS03", "report_config/KS03.json")
+    KS04 = ("KS04", "report_config/KS04.json")
+    KS05 = ("KS05", "report_config/KS05.json")
+    FULL_REPORT = ("Full Report", "report_config/full_report.json")
+
+    def __init__(self, measure_name, config_path):
+        """
+        Initializes a MeasureConfig enum member.
+
+        Args:
+        - measure_name (str): The name of the measure.
+        - config_path (str): The path to the JSON configuration file for the measure.
+        """
+        self.measure_name = measure_name
+        self.config_path = config_path
+
+    @classmethod
+    def get_config_path(cls, measure_name):
+        """
+        Retrieves the configuration file path for a given measure name.
+
+        Args:
+        - measure_name (str): The name of the measure.
+
+        Returns:
+        - str: The path to the JSON configuration file for the measure.
+
+        Raises:
+        - ValueError: If no configuration file path is found for the given measure name.
+        """
+        for measure in cls:
+            if measure.measure_name == measure_name:
+                return measure.config_path
+        raise ValueError(f"No config found for measure: {measure_name}")
 
 
 class ReportPageConfig(BaseModel):
@@ -113,16 +161,22 @@ def validate_config(config_list: List[Dict[str, Any]]) -> List[ReportPageConfig]
     return validated_configs
 
 
-def load_report_config(config_path: str) -> List[ReportPageConfig]:
+def load_report_config(measure_name: str) -> List[ReportPageConfig]:
     """
     Loads report configurations from a JSON file, validates them, and returns a list of ReportPageConfig instances.
 
     Args:
-    - config_path (str): Path to the JSON file containing report configurations.
+        measure_name (str): The name of the measure whose configuration is to be loaded.
 
     Returns:
-    - List[ReportPageConfig]: A list of validated ReportPageConfig instances.
+        List[ReportPageConfig]: A list of validated ReportPageConfig instances.
+
+    Raises:
+        ValueError: If no configuration is found for the given measure name.
+        FileNotFoundError: If the configuration file does not exist.
+        json.JSONDecodeError: If the JSON file cannot be decoded.
     """
+    config_path = MeasureConfig.get_config_path(measure_name)
     with open(config_path, encoding="utf-8") as file:
         j = json.load(file)
 
