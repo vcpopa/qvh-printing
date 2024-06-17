@@ -37,7 +37,7 @@ class MeasureConfig(Enum):
     KS03 = ("KS03", "report_config/KS03.json")
     KS04 = ("KS04", "report_config/KS04.json")
     KS05 = ("KS05", "report_config/KS05.json")
-    FULL_REPORT = ("Full Report", "report_config/full_report.json")
+    FULL_REPORT = ("FullReport", "report_config/full_report.json")
 
     def __init__(self, measure_name, config_path):
         """
