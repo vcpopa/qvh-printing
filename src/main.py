@@ -51,6 +51,8 @@ if __name__ == "__main__":
     client_id = os.environ["AZURE_CLIENT_ID"]
     client_secret = os.environ["AZURE_CLIENT_SECRET"]
     tenant_id = os.environ["AZURE_TENANT_ID"]
+    workspace_id = os.environ["WORKSPACE_ID"]
+    report_id = os.environ["REPORT_ID"]
 
     allowed_measures = ["KS01", "KS02", "KS03", "KS04", "KS05", "all"]
     if measure not in allowed_measures:
@@ -61,8 +63,8 @@ if __name__ == "__main__":
         report_config_path = "report_config/full_report.json"
     else:
         report_config_path = f"report_config/{measure}.json"
-    workspace_id = get_credential("workspace-id")
-    report_id = get_credential("report-id")
+    # workspace_id = get_credential("workspace-id")
+    # report_id = get_credential("report-id")
     report_instance = ReportInstance(
         client_id, client_secret, tenant_id, workspace_id, report_id
     )
