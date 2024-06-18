@@ -40,9 +40,17 @@
 
 },
 {
+    "pageName":"06e2f0013dfc21221777",
+    "displayName":"KS02 - Major Project",
+    "pageOrder":6,
+    "measureId":null,
+    "comparativeMeasureId":null
+
+},
+{
     "pageName":"43fa50690d5e8b98c12d",
     "displayName":"Icons Summary",
-    "pageOrder":6,
+    "pageOrder":7,
     "measureId":null,
     "comparativeMeasureId":null
 

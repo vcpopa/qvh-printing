@@ -51,7 +51,8 @@ if __name__ == "__main__":
         client_id, client_secret, tenant_id, workspace_id, report_id
     )
     token = get_access_token(report_instance)
-    measures = ["KS01", "KS02", "KS03", "KS04", "KS05", "FullReport"]
+    # measures = ["KS01", "KS02", "KS03", "KS04", "KS05", "FullReport"]
+    measures=['FullReport']
     for measure in measures:
         report_config = load_report_config(measure_name=measure)
         run_id = generate_id()
