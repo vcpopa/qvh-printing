@@ -15,10 +15,9 @@ Functions:
 """
 from typing import Optional, List, Dict, Any
 import re
-import json
 from enum import Enum
 from pydantic import BaseModel, field_validator
-
+from sql import read_sql
 
 PRINT_MEASURES_TABLE = "scd.Measure_Print"
 
@@ -32,14 +31,14 @@ class MeasureConfig(Enum):
     - config_path: The path to the JSON configuration file for the measure.
     """
 
-    KS01 = ("KS01", "report_config/KS01.json")
-    KS02 = ("KS02", "report_config/KS02.json")
-    KS03 = ("KS03", "report_config/KS03.json")
-    KS04 = ("KS04", "report_config/KS04.json")
-    KS05 = ("KS05", "report_config/KS05.json")
-    FULL_REPORT = ("FullReport", "report_config/full_report.json")
+    # KS01 = ("KS01", "report_config/KS01.json")
+    # KS02 = ("KS02", "report_config/KS02.json")
+    # KS03 = ("KS03", "report_config/KS03.json")
+    # KS04 = ("KS04", "report_config/KS04.json")
+    # KS05 = ("KS05", "report_config/KS05.json")
+    FULL_REPORT = ("FullReport", "SELECT name as pageName,displayName,PageOrder as pageOrder,measure_id as measureId,comparative_measure_id as comparativeMeasureId FROM scd.MeasurePrint_Dynamic")
 
-    def __init__(self, measure_name, config_path):
+    def __init__(self, measure_name, config_query):
         """
         Initializes a MeasureConfig enum member.
 
@@ -48,10 +47,10 @@ class MeasureConfig(Enum):
         - config_path (str): The path to the JSON configuration file for the measure.
         """
         self.measure_name = measure_name
-        self.config_path = config_path
+        self.config_query = config_query
 
     @classmethod
-    def get_config_path(cls, measure_name):
+    def get_page_config(cls, measure_name):
         """
         Retrieves the configuration file path for a given measure name.
 
@@ -66,7 +65,7 @@ class MeasureConfig(Enum):
         """
         for measure in cls:
             if measure.measure_name == measure_name:
-                return measure.config_path
+                return measure.config_query
         raise ValueError(f"No config found for measure: {measure_name}")
 
 
@@ -176,9 +175,8 @@ def load_report_config(measure_name: str) -> List[ReportPageConfig]:
         FileNotFoundError: If the configuration file does not exist.
         json.JSONDecodeError: If the JSON file cannot be decoded.
     """
-    config_path = MeasureConfig.get_config_path(measure_name)
-    with open(config_path, encoding="utf-8") as file:
-        j = json.load(file)
-
+    config_query = MeasureConfig.get_config_path(measure_name)
+    data=read_sql(config_query)
+    j=data.to_dict(orient='records')
     config = validate_config(j)
     return config
