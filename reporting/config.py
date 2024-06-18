@@ -175,7 +175,7 @@ def load_report_config(measure_name: str) -> List[ReportPageConfig]:
         FileNotFoundError: If the configuration file does not exist.
         json.JSONDecodeError: If the JSON file cannot be decoded.
     """
-    config_query = MeasureConfig.get_config_path(measure_name)
+    config_query = MeasureConfig.get_page_config(measure_name)
     data=read_sql(config_query)
     j=data.to_dict(orient='records')
     config = validate_config(j)
