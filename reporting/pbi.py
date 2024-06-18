@@ -146,7 +146,7 @@ async def get_report_page(
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
     }
-
+    print(f"Requesting {page_config.pageName} with {page_config.displayName}")
     async with session.post(url, json=data, headers=headers) as response:
         response.raise_for_status()
         if response.status == 202:
