@@ -35,7 +35,7 @@ jobs:
 
     - name: Run pylint
       run: |
-        pylint repoorting
+        pylint reporting
 
     - name: Run mypy
       run: |
