@@ -1,6 +1,7 @@
 {
     "name": "Python 3.10 Dev Container",
     "dockerFile": "py310-devcontainer.Dockerfile",
+    "context": "..",
     "customizations": {
         "vscode": {
             "settings": {
