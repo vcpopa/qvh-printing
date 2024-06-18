@@ -43,6 +43,10 @@ if __name__ == "__main__":
     tenant_id = os.environ["AZURE_TENANT_ID"]
     workspace_id = os.environ["WORKSPACE_ID"]
     report_id = os.environ["REPORT_ID"]
+    environment = os.environ['ENVIRONMENT']
+    if environment not in  ['DEV','PROD']:
+        raise EnvironmentError("Environment must be one of DEV or PROD")
+
     report_instance = ReportInstance(
         client_id, client_secret, tenant_id, workspace_id, report_id
     )
@@ -61,7 +65,11 @@ if __name__ == "__main__":
                 chunk_size=chunk_size,
             )
         )
-        report_name = f"{measure}.pptx"
+        if environment == 'DEV':
+            report_name=f"DEV_{report_name}"
+        elif environment=='PROD':
+            report_name = f"{measure}.pptx"
+
         merge_presentations(
             directory_path=run_id, output_filename=f"{run_id}/{report_name}"
         )
