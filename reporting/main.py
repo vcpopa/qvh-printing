@@ -66,7 +66,7 @@ if __name__ == "__main__":
             )
         )
         if environment == 'DEV':
-            report_name=f"DEV_{report_name}"
+            report_name=f"DEV_{measure}.pptx"
         elif environment=='PROD':
             report_name = f"{measure}.pptx"
 
