@@ -36,7 +36,7 @@ class MeasureConfig(Enum):
     # KS03 = ("KS03", "report_config/KS03.json")
     # KS04 = ("KS04", "report_config/KS04.json")
     # KS05 = ("KS05", "report_config/KS05.json")
-    FULL_REPORT = ("FullReport", "SELECT name as pageName,displayName,PageOrder as pageOrder,measure_id as measureId,comparative_measure_id as comparativeMeasureId FROM scd.MeasurePrint_Dynamic")
+    FULL_REPORT = ("FullReport", "SELECT name as pageName,displayName,rowid as pageOrder,measure_id as measureId,comparative_measure_id as comparativeMeasureId FROM scd.MeasurePrint_Dynamic")
 
     def __init__(self, measure_name, config_query):
         """
