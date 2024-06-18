@@ -54,18 +54,11 @@
     "comparativeMeasureId":null
 
 },
-{
-    "pageName":"43fa50690d5e8b98c12d",
-    "displayName":"Icons Summary",
-    "pageOrder":8,
-    "measureId":null,
-    "comparativeMeasureId":null
 
-},
 {
     "pageName":"93c8bba99ee1d0c0cdde",
     "displayName":"KS02",
-    "pageOrder":9,
+    "pageOrder":8,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -73,7 +66,7 @@
 {
     "pageName":"0dd388195300a082cd0a",
     "displayName":"KS02 - Summary",
-    "pageOrder":10,
+    "pageOrder":9,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -81,7 +74,7 @@
 {
     "pageName":"ReportSection7bc5b0174768b0ae0c5d",
     "displayName":"KS02 - scorecard",
-    "pageOrder":11,
+    "pageOrder":10,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -89,7 +82,7 @@
 {
     "pageName":"06e2f0013dfc21221777",
     "displayName":"KS02 - Major Project",
-    "pageOrder":12,
+    "pageOrder":11,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -97,7 +90,7 @@
 {
     "pageName":"db3c9753582b07ec28b4",
     "displayName":"KS03",
-    "pageOrder":13,
+    "pageOrder":12,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -105,7 +98,7 @@
 {
     "pageName":"ece5762bab1cdc5ec329",
     "displayName":"KS03 - Summary",
-    "pageOrder":14,
+    "pageOrder":13,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -113,7 +106,7 @@
 {
     "pageName":"ReportSectionc07d81b1aec66230d660",
     "displayName":"KS03 - scorecard",
-    "pageOrder":15,
+    "pageOrder":14,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -121,7 +114,7 @@
 {
     "pageName":"ReportSection41e013540b5ac64c9a0e",
     "displayName":"KS03 - Annual Goal",
-    "pageOrder":16,
+    "pageOrder":15,
     "measureId":"BR052",
     "comparativeMeasureId":"BR054"
 
@@ -129,7 +122,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":17,
+    "pageOrder":16,
     "measureId":"BR053",
     "comparativeMeasureId":"BR056"
 
@@ -137,7 +130,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":18,
+    "pageOrder":17,
     "measureId":"BR055",
     "comparativeMeasureId":"BR054"
 
@@ -145,7 +138,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":19,
+    "pageOrder":18,
     "measureId":"BR034",
     "comparativeMeasureId":"BR054"
 
@@ -153,7 +146,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":20,
+    "pageOrder":19,
     "measureId":"BR035",
     "comparativeMeasureId":null
 
@@ -161,7 +154,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":21,
+    "pageOrder":20,
     "measureId":"BR036",
     "comparativeMeasureId":null
 
@@ -169,7 +162,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":22,
+    "pageOrder":21,
     "measureId":"BR037",
     "comparativeMeasureId":null
 
@@ -177,7 +170,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":23,
+    "pageOrder":22,
     "measureId":"BR038",
     "comparativeMeasureId":null
 
@@ -185,7 +178,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":24,
+    "pageOrder":23,
     "measureId":"BR057",
     "comparativeMeasureId":"BR071"
 
@@ -193,7 +186,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":25,
+    "pageOrder":24,
     "measureId":"BR059",
     "comparativeMeasureId":null
 
@@ -201,7 +194,7 @@
 {
     "pageName":"ReportSection44e14d2d6874d9a791ae",
     "displayName":"KS03 - Non Annual Goal",
-    "pageOrder":26,
+    "pageOrder":25,
     "measureId":"BR041",
     "comparativeMeasureId":null
 
@@ -209,7 +202,7 @@
 {
     "pageName":"c368f6d55edd065b56b6",
     "displayName":"KS03 - Major Project 1",
-    "pageOrder":27,
+    "pageOrder":26,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -217,7 +210,7 @@
 {
     "pageName":"2e36ef07263adf398b98",
     "displayName":"KS03 - Major Project 2",
-    "pageOrder":28,
+    "pageOrder":27,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -225,7 +218,7 @@
 {
     "pageName":"549cbcc827f46bfabfaa",
     "displayName":"KS03 - Major Project 3",
-    "pageOrder":29,
+    "pageOrder":28,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -233,7 +226,7 @@
 {
     "pageName":"1de988f7aaac20400026",
     "displayName":"KS04",
-    "pageOrder":30,
+    "pageOrder":29,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -241,7 +234,7 @@
 {
     "pageName":"dc1e5c0216bc292eb97b",
     "displayName":"KS04 - Summary",
-    "pageOrder":31,
+    "pageOrder":30,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -249,7 +242,7 @@
 {
     "pageName":"ReportSectionefbb028b1005b0750ec9",
     "displayName":"KS04 - scorecard",
-    "pageOrder":32,
+    "pageOrder":31,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -257,7 +250,7 @@
 {
     "pageName":"f7963ec0119857d091a0",
     "displayName":"KS05",
-    "pageOrder":33,
+    "pageOrder":32,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -265,7 +258,7 @@
 {
     "pageName":"dfbf91e570010dbc020e",
     "displayName":"KS05 - Summary",
-    "pageOrder":34,
+    "pageOrder":33,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -273,7 +266,7 @@
 {
     "pageName":"ReportSection3d56c1430c6507eeb94b",
     "displayName":"KS05 - scorecard",
-    "pageOrder":35,
+    "pageOrder":34,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -281,7 +274,7 @@
 {
     "pageName":"4f250e9c6958b547369a",
     "displayName":"KS05 - Major Project",
-    "pageOrder":36,
+    "pageOrder":35,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -289,7 +282,7 @@
 {
     "pageName":"a9be15c457faf49ff57",
     "displayName":"KS05 - Culture",
-    "pageOrder":37,
+    "pageOrder":36,
     "measureId":null,
     "comparativeMeasureId":null
 
@@ -297,7 +290,7 @@
 {
     "pageName":"43fa50690d5e8b98c12d",
     "displayName":"Icons Summary",
-    "pageOrder":38,
+    "pageOrder":37,
     "measureId":null,
     "comparativeMeasureId":null
 
