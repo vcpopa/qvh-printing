@@ -35,7 +35,10 @@ import os
 import copy
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
+from pptx.util import Inches
 
+PPT_WIDTH=13.33
+PPT_HEIGHT=7.5
 
 def copy_slide(slide, new_presentation):
     """
@@ -97,7 +100,8 @@ def merge_presentations(directory_path, output_filename):
     """
     # Create a new presentation to merge the slides into
     merged_presentation = Presentation()
-
+    merged_presentation.slide_width = Inches(PPT_WIDTH)
+    merged_presentation.slide_height = Inches(PPT_HEIGHT)
     # Iterate over each presentation file in the directory and copy its slides
     files = sorted(os.listdir(directory_path))
     print(f"Merging {len(files)} slides")
@@ -109,5 +113,5 @@ def merge_presentations(directory_path, output_filename):
             for slide in source_presentation.slides:
                 copy_slide(slide, merged_presentation)
 
-    # Save the merged presentation
-    merged_presentation.save(output_filename)
+    output_ppt_path = output_filename.replace('.pptx', '.ppt')
+    merged_presentation.save(output_ppt_path)
