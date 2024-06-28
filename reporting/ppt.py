@@ -113,5 +113,4 @@ def merge_presentations(directory_path, output_filename):
             for slide in source_presentation.slides:
                 copy_slide(slide, merged_presentation)
 
-    output_ppt_path = output_filename.replace('.pptx', '.ppt')
-    merged_presentation.save(output_ppt_path)
+    merged_presentation.save(output_filename)
