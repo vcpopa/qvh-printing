@@ -44,6 +44,8 @@ if __name__ == "__main__":
     workspace_id = os.environ["WORKSPACE_ID"]
     report_id = os.environ["REPORT_ID"]
     environment = os.environ['ENVIRONMENT']
+    page_name = os.environ['PAGE']
+    print(f"Reading page {page_name}")
     if environment not in  ['DEV','PROD']:
         raise EnvironmentError("Environment must be one of DEV or PROD")
 
@@ -51,31 +53,28 @@ if __name__ == "__main__":
         client_id, client_secret, tenant_id, workspace_id, report_id
     )
     token = get_access_token(report_instance)
-    # measures = ["KS01", "KS02", "KS03", "KS04", "KS05", "FullReport"]
-    measures=['FullReport']
-    for measure in measures:
-        report_config = load_report_config(measure_name=measure)
-        run_id = generate_id()
-        make_dir(run_id)
-        asyncio.run(
-            get_all_pages(
-                report_config=report_config,
-                instance=report_instance,
-                token=token,
-                ppt_id=run_id,
-                chunk_size=chunk_size,
-            )
+    report_config = load_report_config(page_name=page_name)
+    run_id = generate_id()
+    make_dir(run_id)
+    asyncio.run(
+        get_all_pages(
+            report_config=report_config,
+            instance=report_instance,
+            token=token,
+            ppt_id=run_id,
+            chunk_size=chunk_size,
         )
-        if environment == 'DEV':
-            report_name=f"DEV_{measure}.pptx"
-        elif environment=='PROD':
-            report_name = f"{measure}.pptx"
+    )
+    if environment == 'DEV':
+        report_name=f"DEV_{page_name}.pptx"
+    else:
+        report_name = f"{page_name}.pptx"
 
-        merge_presentations(
-            directory_path=run_id, output_filename=f"{run_id}/{report_name}"
-        )
-        upload_to_fileshare(
-            local_file_path=f"{run_id}/{report_name}",
-            fileshare_path=f"Reports/{report_name}",
-            fileshare_name="qvh",
-        )
+    merge_presentations(
+        directory_path=run_id, output_filename=f"{run_id}/{report_name}"
+    )
+    upload_to_fileshare(
+        local_file_path=f"{run_id}/{report_name}",
+        fileshare_path=f"Reports/{report_name}",
+        fileshare_name="qvh",
+    )

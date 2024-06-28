@@ -146,7 +146,7 @@ async def get_report_page(
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
     }
-    async with session.post(url, json=data, headers=headers) as response:#
+    async with session.post(url, json=data, headers=headers) as response:  #
         try:
             response.raise_for_status()
             if response.status == 202:
@@ -154,7 +154,9 @@ async def get_report_page(
                 status_url = f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/reports/{report_id}/exports/{export_id}"
                 export_completed = False
                 while not export_completed:
-                    async with session.get(status_url, headers=headers) as status_response:
+                    async with session.get(
+                        status_url, headers=headers
+                    ) as status_response:
 
                         status_response.raise_for_status()
                         status_data = await status_response.json()
@@ -171,10 +173,15 @@ async def get_report_page(
                     file_response.raise_for_status()
                     with open(ppt_file_name, "wb") as file:
                         file.write(await file_response.read())
-                print(f"Requesting {page_config.pageName} with {page_config.displayName} successful!!")
+                print(
+                    f"Requesting {page_config.pageName} with {page_config.displayName} successful!!"
+                )
         except Exception as e:
-            print(f"Requesting {page_config.pageName} with {page_config.displayName} failed")
+            print(
+                f"Requesting {page_config.pageName} with {page_config.displayName} failed"
+            )
             raise e
+
 
 async def get_all_pages(
     report_config: List[ReportPageConfig],
