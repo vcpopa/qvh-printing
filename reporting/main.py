@@ -45,6 +45,7 @@ if __name__ == "__main__":
     report_id = os.environ["REPORT_ID"]
     environment = os.environ['ENVIRONMENT']
     page_name = os.environ['PAGE']
+    print(f"Reading page {page_name}")
     if environment not in  ['DEV','PROD']:
         raise EnvironmentError("Environment must be one of DEV or PROD")
 
