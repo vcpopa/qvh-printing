@@ -7,66 +7,18 @@ This module provides utilities to handle and validate report configuration data 
 
 Classes:
 - ReportPageConfig: Pydantic model for a report configuration with validation methods for measureId.
-- BaseModel: Pydantic's BaseModel for defining data models.
 
 Functions:
+- get_page_config: Retrieves the configuration for a given page name from the database.
 - validate_config: Validates a list of configurations and returns a list of ReportPageConfig instances.
-- load_report_config: Loads report configurations from a JSON file, validates them, and returns a list of ReportPageConfig instances.
+- load_report_config: Loads report configurations for a given page name, validates them, and returns a list of ReportPageConfig instances.
 """
 from typing import Optional, List, Dict, Any
 import re
-from enum import Enum
 from pydantic import BaseModel, field_validator
 from sql import read_sql
 
-PRINT_MEASURES_TABLE = "scd.Measure_Print"
-
-
-class MeasureConfig(Enum):
-    """
-    Enum representing different measures and their corresponding configuration file paths.
-
-    Each member of the enum consists of:
-    - measure_name: The name of the measure.
-    - config_path: The path to the JSON configuration file for the measure.
-    """
-
-    # KS01 = ("KS01", "report_config/KS01.json")
-    # KS02 = ("KS02", "report_config/KS02.json")
-    # KS03 = ("KS03", "report_config/KS03.json")
-    # KS04 = ("KS04", "report_config/KS04.json")
-    # KS05 = ("KS05", "report_config/KS05.json")
-    FULL_REPORT = ("FullReport", "SELECT name as pageName,displayName,rowid as pageOrder,measure_id as measureId,comparative_measure_id as comparativeMeasureId FROM scd.MeasurePrint_Dynamic")
-
-    def __init__(self, measure_name, config_query):
-        """
-        Initializes a MeasureConfig enum member.
-
-        Args:
-        - measure_name (str): The name of the measure.
-        - config_path (str): The path to the JSON configuration file for the measure.
-        """
-        self.measure_name = measure_name
-        self.config_query = config_query
-
-    @classmethod
-    def get_page_config(cls, measure_name):
-        """
-        Retrieves the configuration file path for a given measure name.
-
-        Args:
-        - measure_name (str): The name of the measure.
-
-        Returns:
-        - str: The path to the JSON configuration file for the measure.
-
-        Raises:
-        - ValueError: If no configuration file path is found for the given measure name.
-        """
-        for measure in cls:
-            if measure.measure_name == measure_name:
-                return measure.config_query
-        raise ValueError(f"No config found for measure: {measure_name}")
+PRINT_MEASURES_TABLE = "scd.MeasurePrint_Dynamic"
 
 
 class ReportPageConfig(BaseModel):
@@ -109,30 +61,43 @@ class ReportPageConfig(BaseModel):
                 raise ValueError('measureId must match the format "BR{3 digits int}"')
         return value
 
-    # @field_validator("measureId")
-    # def validate_measure_exists(cls, value: str) -> str:
-    #     """
-    #     Validator for measureId existence in the database table.
 
-    #     Args:
-    #     - value (str): Value of the measureId to validate.
+def get_page_config(page_name: str) -> List[Dict[str, Any]]:
+    """
+    Retrieves the configuration for a given page name from the database.
 
-    #     Returns:
-    #     - str: The validated measureId value.
+    Args:
+    - page_name (str): The name of the page.
 
-    #     Raises
-    #     - ValueError: If measureId specified does not exist in the config table.
-    #     """
-    #     pass
-    #     # if value:
-    #     #     page = read_sql(
-    #     #         f"SELECT measure_id FROM {PRINT_MEASURES_TABLE} WHERE measure_id = '{value}'"
-    #     #     )
-    #     #     if page.empty:
-    #     #         raise ValueError(
-    #     #             "measureId specified does not exist in the config table"
-    #     #         )
-    #     # return value
+    Returns:
+    - List[Dict[str, Any]]: A list of dictionaries representing configurations.
+
+    Raises:
+    - ValueError: If no configuration is found for the given page name.
+    """
+    if page_name == "FullReport":
+        config_query = f"""SELECT name as pageName,
+        displayName,
+        rowid as pageOrder,
+        measure_id as measureId,
+        comparative_measure_id as comparativeMeasureId
+        FROM
+        {PRINT_MEASURES_TABLE}"""
+    else:
+        config_query = f"""SELECT name as pageName,
+        displayName,
+        rowid as pageOrder,
+        measure_id as measureId,
+        comparative_measure_id as comparativeMeasureId
+        FROM
+        {PRINT_MEASURES_TABLE}
+        WHERE
+        displayName = '{page_name}'"""
+    config = read_sql(config_query)
+    if config.empty:
+        raise ValueError("Specified page does not exist")
+    config = config.to_dict(orient="records")
+    return config
 
 
 def validate_config(config_list: List[Dict[str, Any]]) -> List[ReportPageConfig]:
@@ -160,7 +125,7 @@ def validate_config(config_list: List[Dict[str, Any]]) -> List[ReportPageConfig]
     return validated_configs
 
 
-def load_report_config(measure_name: str) -> List[ReportPageConfig]:
+def load_report_config(page_name: str) -> List[ReportPageConfig]:
     """
     Loads report configurations from a JSON file, validates them, and returns a list of ReportPageConfig instances.
 
@@ -175,8 +140,6 @@ def load_report_config(measure_name: str) -> List[ReportPageConfig]:
         FileNotFoundError: If the configuration file does not exist.
         json.JSONDecodeError: If the JSON file cannot be decoded.
     """
-    config_query = MeasureConfig.get_page_config(measure_name)
-    data=read_sql(config_query)
-    j=data.to_dict(orient='records')
-    config = validate_config(j)
+    config_data = get_page_config(page_name)
+    config = validate_config(config_data)
     return config

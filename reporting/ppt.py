@@ -80,7 +80,7 @@ def copy_slide(slide, new_presentation):
         )
 
     # Remove the temporary image files
-    for img_path in img_dict.keys():
+    for img_path in img_dict:
         os.remove(img_path)
 
 
