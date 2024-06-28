@@ -75,7 +75,7 @@ def get_page_config(page_name: str) -> List[Dict[str, Any]]:
     Raises:
     - ValueError: If no configuration is found for the given page name.
     """
-    if page_name == "FullReport":
+    if page_name == "Full Report":
         config_query = f"""SELECT name as pageName,
         displayName,
         rowid as pageOrder,
