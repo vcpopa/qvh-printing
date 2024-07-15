@@ -149,7 +149,6 @@ async def get_report_page(
             "reportLevelFilters": [{"filter": combined_filter}] if combined_filter else [],
         },
     }
-    print(data)
 
     headers = {
         "Authorization": f"Bearer {token}",
