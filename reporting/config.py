@@ -18,7 +18,7 @@ import re
 from pydantic import BaseModel, field_validator
 from sql import read_sql
 
-PRINT_MEASURES_TABLE = "scd.MeasurePrint_Dynamic"
+PRINT_MEASURES_TABLE = "scd.MeasurePrint_Dynamic_Other"
 
 
 class ReportPageConfig(BaseModel):
