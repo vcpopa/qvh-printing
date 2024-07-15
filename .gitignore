@@ -30,3 +30,6 @@ venv.bak/
 
 # Pytest
 .pytest_cache/
+*.pptx
+*.ppt
+*.DS_Store

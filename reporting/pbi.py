@@ -102,6 +102,8 @@ async def get_report_page(
     token: str,
     page_config: ReportPageConfig,
     ppt_file_name: str,
+    dashboard: str,
+    commentary_level: str,    
 ) -> None:
     """
     Export a specific page of a Power BI report to a PDF file with optional filters.
@@ -112,6 +114,8 @@ async def get_report_page(
     - token (str): The authorization token.
     - page_config (ReportPageConfig): The page configuration containing pageName and optional measureId.
     - ppt_file_name (str): The name of the file to save the exported PowerPoint file as.
+    - dashboard (str): The dashboard parameter to be passed to the report level filters.
+    - commentary_level (str): The commentary level parameter to be passed to the report level filters.
 
     Returns:
     - None: The function saves the exported PowerPoint file to a file.
@@ -120,33 +124,37 @@ async def get_report_page(
     report_id = instance.report_id
     url = f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/reports/{report_id}/ExportTo"
 
+    filters = []
+
     if page_config.measureId:
         if page_config.comparativeMeasureId:
-            # TODO: confirm this
-            # filter_string=f"scd_Measure/Measure_ID in ('{page_config.measureId}') and scd_Measure/Comparative_Measure_ID in ('{page_config.comparativeMeasureId}')"
             filter_string = f"scd_Measure/Measure_ID in ('{page_config.measureId}')"
         else:
             filter_string = f"scd_Measure/Measure_ID in ('{page_config.measureId}')"
+        filters.append(filter_string)
 
-        data = {
-            "format": "PPTX",
-            "powerBIReportConfiguration": {
-                "pages": [{"pageName": page_config.pageName}],
-                "reportLevelFilters": [{"filter": filter_string}],
-            },
-        }
-    else:
-        data = {
-            "format": "PPTX",
-            "powerBIReportConfiguration": {
-                "pages": [{"pageName": page_config.pageName}]
-            },
-        }
+    if dashboard:
+        filters.append(f"CommentaryLevel/Dashboard in ('{dashboard}')")
+
+    if commentary_level:
+        filters.append(f"CommentaryLevel/CommentaryLevel in ('{commentary_level}')")
+
+    # Combine all filters into a single string
+    combined_filter = " and ".join(filters)
+
+    data = {
+        "format": "PPTX",
+        "powerBIReportConfiguration": {
+            "pages": [{"pageName": page_config.pageName}],
+            "reportLevelFilters": [{"filter": combined_filter}] if combined_filter else [],
+        },
+    }
+
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
     }
-    async with session.post(url, json=data, headers=headers) as response:  #
+    async with session.post(url, json=data, headers=headers) as response:
         try:
             response.raise_for_status()
             if response.status == 202:
@@ -188,7 +196,9 @@ async def get_all_pages(
     instance: ReportInstance,
     token: str,
     ppt_id: str,
-    chunk_size: int = 5,
+    dashboard: str,
+    commentary_level: str,
+    chunk_size: int = 5
 ):
     """
     Export all pages from a list of ReportPageConfig asynchronously.
@@ -220,6 +230,8 @@ async def get_all_pages(
                         token=token,
                         page_config=page,
                         ppt_file_name=ppt_file_name,
+                        dashboard=dashboard, 
+                        commentary_level=commentary_level,
                     )
                 )
                 tasks.append(task)

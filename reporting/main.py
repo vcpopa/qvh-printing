@@ -45,6 +45,8 @@ if __name__ == "__main__":
     report_id = os.environ["REPORT_ID"]
     environment = os.environ['ENVIRONMENT']
     page_name = os.environ['PAGE']
+    dashboard = os.environ['DASHBOARD']
+    commentary_level = os.environ['COMMENTARY_LEVEL']
     print(f"Reading page {page_name}")
     if environment not in  ['DEV','PROD']:
         raise EnvironmentError("Environment must be one of DEV or PROD")
@@ -62,6 +64,8 @@ if __name__ == "__main__":
             instance=report_instance,
             token=token,
             ppt_id=run_id,
+            dashboard=dashboard, 
+            commentary_level=commentary_level,            
             chunk_size=chunk_size,
         )
     )
