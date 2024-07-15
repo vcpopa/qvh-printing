@@ -137,7 +137,7 @@ async def get_report_page(
         filters.append(f"CommentaryLevel/Dashboard in ('{dashboard}')")
 
     if commentary_level:
-        filters.append(f"CommentaryLevel/CommentaryLevel in ('{commentary_level}')")
+        filters.append(f"CommentaryLevel/CommentaryLevel in ('{commentary_level}')")    
 
     # Combine all filters into a single string
     combined_filter = " and ".join(filters)
@@ -149,6 +149,7 @@ async def get_report_page(
             "reportLevelFilters": [{"filter": combined_filter}] if combined_filter else [],
         },
     }
+    print(data)
 
     headers = {
         "Authorization": f"Bearer {token}",
