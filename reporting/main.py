@@ -69,10 +69,16 @@ if __name__ == "__main__":
             chunk_size=chunk_size,
         )
     )
+
     if environment == 'DEV':
-        report_name=f"DEV_{page_name}.ppt"
+        report_name = f"DEV_{page_name}"
     else:
-        report_name = f"{page_name}.ppt"
+        report_name = f"{page_name}"
+
+    if dashboard != 'Trust':
+        report_name = f"{dashboard}_{commentary_level}_{report_name}.ppt"
+    else:
+        report_name = f"{report_name}.ppt"
 
     merge_presentations(
         directory_path=run_id, output_filename=f"{run_id}/{report_name}"
