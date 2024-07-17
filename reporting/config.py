@@ -62,7 +62,7 @@ class ReportPageConfig(BaseModel):
         return value
 
 
-def get_page_config(page_name: str) -> List[Dict[str, Any]]:
+def get_page_config(page_name: str, dashboard: str, commentary_level: str) -> List[Dict[str, Any]]:
     """
     Retrieves the configuration for a given page name from the database.
 
@@ -76,15 +76,18 @@ def get_page_config(page_name: str) -> List[Dict[str, Any]]:
     - ValueError: If no configuration is found for the given page name.
     """
     print(f"Using {page_name}")
-    if page_name == "Full Report":
+    if page_name == "Full Report" and dashboard == "Trust":
         config_query = f"""SELECT name as pageName,
         displayName,
         rowid as pageOrder,
         measure_id as measureId,
         comparative_measure_id as comparativeMeasureId
         FROM
-        {PRINT_MEASURES_TABLE}"""
-    else:
+        {PRINT_MEASURES_TABLE}
+        WHERE dashboard= 'Trust'
+        """
+    
+    if page_name != "Full Report" and dashboard != "Trust":
         config_query = f"""SELECT name as pageName,
         displayName,
         rowid as pageOrder,
@@ -93,7 +96,26 @@ def get_page_config(page_name: str) -> List[Dict[str, Any]]:
         FROM
         {PRINT_MEASURES_TABLE}
         WHERE
+        dashboard = 'Trust'
+        AND
         displayName = '{page_name}'"""
+
+    if page_name == "Full Report" and dashboard != "Trust":
+        config_query = f"""SELECT name as pageName,
+        displayName,
+        rowid as pageOrder,
+        measure_id as measureId,
+        comparative_measure_id as comparativeMeasureId
+        FROM
+        {PRINT_MEASURES_TABLE}
+        WHERE
+        dashboard = '{dashboard}'
+        AND
+        commentary_level = '{commentary_level}'
+        AND
+        displayName = '{page_name}'
+        """
+
     config = read_sql(config_query)
     if config.empty:
         raise ValueError("Specified page does not exist")
@@ -126,7 +148,7 @@ def validate_config(config_list: List[Dict[str, Any]]) -> List[ReportPageConfig]
     return validated_configs
 
 
-def load_report_config(page_name: str) -> List[ReportPageConfig]:
+def load_report_config(page_name: str, dashboard: str, commentary_level: str) -> List[ReportPageConfig]:
     """
     Loads report configurations from a JSON file, validates them, and returns a list of ReportPageConfig instances.
 
@@ -141,6 +163,6 @@ def load_report_config(page_name: str) -> List[ReportPageConfig]:
         FileNotFoundError: If the configuration file does not exist.
         json.JSONDecodeError: If the JSON file cannot be decoded.
     """
-    config_data = get_page_config(page_name)
+    config_data = get_page_config(page_name, dashboard, commentary_level)
     config = validate_config(config_data)
     return config

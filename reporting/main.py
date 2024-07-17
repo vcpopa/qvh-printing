@@ -55,7 +55,7 @@ if __name__ == "__main__":
         client_id, client_secret, tenant_id, workspace_id, report_id
     )
     token = get_access_token(report_instance)
-    report_config = load_report_config(page_name=page_name)
+    report_config = load_report_config(page_name=page_name,dashboard=dashboard,commentary_level=commentary_level)
     run_id = generate_id()
     make_dir(run_id)
     asyncio.run(
