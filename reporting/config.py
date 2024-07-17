@@ -76,6 +76,7 @@ def get_page_config(page_name: str, dashboard: str, commentary_level: str) -> Li
     - ValueError: If no configuration is found for the given page name.
     """
     print(f"Using {page_name}")
+
     if page_name == "Full Report" and dashboard == "Trust":
         config_query = f"""SELECT name as pageName,
         displayName,
@@ -86,8 +87,10 @@ def get_page_config(page_name: str, dashboard: str, commentary_level: str) -> Li
         {PRINT_MEASURES_TABLE}
         WHERE dashboard= 'Trust'
         """
+
+        print("Trust Full Report")
     
-    if page_name != "Full Report" and dashboard != "Trust":
+    if page_name != "Full Report" and dashboard == "Trust":
         config_query = f"""SELECT name as pageName,
         displayName,
         rowid as pageOrder,
@@ -98,7 +101,10 @@ def get_page_config(page_name: str, dashboard: str, commentary_level: str) -> Li
         WHERE
         dashboard = 'Trust'
         AND
-        displayName = '{page_name}'"""
+        displayName = '{page_name}'
+        """
+
+        print("1 Page print Trust")
 
     if page_name == "Full Report" and dashboard != "Trust":
         config_query = f"""SELECT name as pageName,
@@ -111,10 +117,28 @@ def get_page_config(page_name: str, dashboard: str, commentary_level: str) -> Li
         WHERE
         dashboard = '{dashboard}'
         AND
-        commentary_level = '{commentary_level}'
+        commentarylevel = '{commentary_level}'
+        """
+
+        print("Full Report not trust level")
+
+    if page_name != "Full Report" and dashboard != "Trust":
+        config_query = f"""SELECT name as pageName,
+        displayName,
+        rowid as pageOrder,
+        measure_id as measureId,
+        comparative_measure_id as comparativeMeasureId
+        FROM
+        {PRINT_MEASURES_TABLE}
+        WHERE
+        dashboard = '{dashboard}'
+        AND
+        commentarylevel = '{commentary_level}'
         AND
         displayName = '{page_name}'
         """
+
+        print("1 page not trust level")        
 
     config = read_sql(config_query)
     if config.empty:
